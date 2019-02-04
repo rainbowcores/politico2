@@ -1,1 +1,2 @@
-Politico challenge 2
+Politico challenge 2 
+Restful Flask API
