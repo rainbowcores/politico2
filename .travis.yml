@@ -18,7 +18,7 @@ install:
   - pip install coveralls
 # command to run tests
 script:
-  - pytest --cov=Politico2/
+  - coverage run --source app/tests/ -m pytest
 #need to tell Travis-CI to run the coveralls command after the test ran successfully.
 after_success:
   - coveralls
