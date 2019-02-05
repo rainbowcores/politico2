@@ -5,6 +5,10 @@ app = Flask(__name__)
 api = Blueprint('api', __name__, url_prefix='/api/v1')
 
 politicalparties_list = []
+def generate_id(list):
+    """ Creates a unique ID for a new item to be added to the list"""
+
+    return len(list) + 1
 
 @api.route('/politicalparties', methods = ["POST"])
 def add_politicalparties():
@@ -19,6 +23,7 @@ def add_politicalparties():
     chairperson = data ['chairperson']
 
     new_politicalparty = { 
+            "id": generate_id(politicalparties_list),
             "name" : name ,
             "abbreviation" : abbreviation ,
             "members" : members ,
@@ -29,5 +34,6 @@ def add_politicalparties():
     politicalparties_list.append(new_politicalparty)
     return make_response(jsonify({
         "Message": "New Political Party Created",
-        "party name": new_politicalparty['name']
-    }), 201)
+        "party name": new_politicalparty['name'],
+        "party id": new_politicalparty['id'],
+ }), 201)
