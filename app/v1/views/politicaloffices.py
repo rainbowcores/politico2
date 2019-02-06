@@ -37,6 +37,7 @@ def add_politicaloffices():
     }), 201)
 
     elif request.method == "GET":
+        #Get all political offices - GET request
         return make_response(jsonify({
                 "offices": politicaloffices_list,
                 "status": "Ok"
