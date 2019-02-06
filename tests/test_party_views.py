@@ -24,3 +24,10 @@ class PoliticalPartiesTestCase(unittest.TestCase):
         """Test that API can create political party"""
         response = self.client.post('/api/v1/politicalparties', json=self.politicalparty)
         self.assertEqual(response.status_code, 201)
+    
+    def test_view_all_parties(self):
+        """Test that API can view all political parties"""
+        response = self.client.post('/api/v1/politicalparties', json=self.politicalparty)
+
+        self.assertEqual(response.status_code, 200)
+
