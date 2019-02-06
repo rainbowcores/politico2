@@ -1,8 +1,9 @@
 
-from flask import Flask, make_response, jsonify, request, Blueprint
+from flask import Flask, make_response, jsonify, request
+from .politicalmain import api
+
 app = Flask(__name__)
 
-api = Blueprint('api', __name__, url_prefix='/api/v1')
 
 politicalparties_list = []
 def generate_id(list):

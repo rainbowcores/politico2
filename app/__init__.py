@@ -1,7 +1,10 @@
 import os
 
 from flask import Flask
-from .v1 import politicalparties
+from .v1.views.politicalmain import api
+from .v1.views import politicaloffices, politicalparties
+
+
 
 
 # local import
@@ -14,7 +17,7 @@ def create_app(config_name):
     app.config.from_pyfile('config.py')
 
     
-    app.register_blueprint(politicalparties.api)
+    app.register_blueprint(api)
     
     
     return app
