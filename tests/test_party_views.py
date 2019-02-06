@@ -30,4 +30,10 @@ class PoliticalPartiesTestCase(unittest.TestCase):
         response = self.client.get('/api/v1/politicalparties', json=self.politicalparty)
 
         self.assertEqual(response.status_code, 200)
+    
+    def test_view_specific_party(self):
+        response = self.client.get('/api/v1/politicalparties/<int:id>', json=self.politicalparty)
+        self.assertEqual(response.status_code, 200)
+        
+
 
