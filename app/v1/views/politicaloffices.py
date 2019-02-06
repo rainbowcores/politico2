@@ -30,6 +30,7 @@ def add_politicaloffices():
                 }
         
         politicaloffices_list.append(new_politicaloffice)
+        
         return make_response(jsonify({
             "Message": "New Political Office Created",
             "office name": new_politicaloffice['name'],
