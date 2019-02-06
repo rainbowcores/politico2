@@ -3,23 +3,20 @@ import os
 import json
 from app import create_app
 
-class PoliticalPartiesTestCase(unittest.TestCase):
+class PoliticalOfficesTestCase(unittest.TestCase):
 
-    #This class represents the political parties test case
+    #This class represents the political offices test case
     
     def setUp(self):
         """ Initialize app and test variables """
         self.app = create_app(config_name="testing")
         self.client = self.app.test_client()
-        self.politicalparty = { 
-            "name" : "African Liberation Party" ,
-            "abbreviation" : "ALP" ,
-            "members" : "15" ,
-            "headquarters": "Biafra House, Kaaunda Road",
-            "chairperson": "Betty Sade"
+        self.politicaloffice = { 
+            "type" : "County" ,
+            "name" : "Governor Kiambu" 
             }
 
-    def test_politicalparty_creation (self):
+    def test_politicaloffice_creation (self):
         """Test that API can create political party"""
-        response = self.client.post('/api/v1/politicalparties', json=self.politicalparty)
+        response = self.client.post('/api/v1/politicaloffices', json=self.politicaloffice)
         self.assertEqual(response.status_code, 201)
