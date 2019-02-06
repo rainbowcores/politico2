@@ -36,7 +36,9 @@ def add_politicaloffices():
             "office id": new_politicaloffice['id'],
     }), 201)
 
-    elif request.methods == "GET":
-        return make_response(jsonify(politicaloffices_list), 200)
-
+    elif request.method == "GET":
+        return make_response(jsonify({
+                "offices": politicaloffices_list,
+                "status": "Ok"
+            }), 200)
 
