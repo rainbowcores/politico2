@@ -12,7 +12,7 @@ class PoliticalOfficesTestCase(unittest.TestCase):
         self.app = create_app(config_name="testing")
         self.client = self.app.test_client()
         self.politicaloffice = { 
-            "type" : "County" ,
+            "office_type" : "County" ,
             "name" : "Governor Kiambu" 
             }
 
@@ -28,5 +28,5 @@ class PoliticalOfficesTestCase(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
 
     def test_view_specific_office(self):
-        response = self.client.get('/api/v1/politicalparties/1', json=self.politicaloffice)
+        response = self.client.get('/api/v1/politicaloffices/1', json=self.politicaloffice)
         self.assertEqual(response.status_code, 200)
