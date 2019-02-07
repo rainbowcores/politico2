@@ -10,7 +10,7 @@ install:
 
 
 script:
-  - pytest --cov=tests/
+  - pytest --cov=app tests/
 
 after_success:
   - coveralls
