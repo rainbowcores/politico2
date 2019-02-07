@@ -14,12 +14,11 @@ class PoliticalOfficesTestCase(BaseTest):
     
     def test_politicaloffice_empty_fields (self):
         """Test that API can create political office"""
-        
+
         response = self.client.post('/api/v1/politicaloffices', json=self.missingpoliticaloffice)
         self.assertEqual(response.status_code, 400)
 
     def test_politicaloffice_datatype_fields (self):
-        """Test that API can create political party"""
         response = self.client.post('/api/v1/politicaloffices', json=self.stringpoliticaloffice)
         self.assertEqual(response.status_code, 400)
     
