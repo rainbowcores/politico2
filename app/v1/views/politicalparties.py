@@ -49,7 +49,7 @@ def add_politicalparties():
                 "status": "Ok"
             }), 200)
 
-@api.route('/politicalparties/<int:id>', methods = ["GET", "DELETE", "PUT"])
+@api.route('/politicalparties/<int:id>', methods = ["GET", "DELETE"])
 def specific_politicalparty(id):
     #View specific political party - GET request
     new_politicalparty = [new_politicalparty for new_politicalparty in politicalparties_list if new_politicalparty['id'] == id]
@@ -67,8 +67,37 @@ def specific_politicalparty(id):
         
         new_politicalparty.pop
 
-        return make_response(jsonify({"msg": "Party with id {} id deleted".format(id)
+        return make_response(jsonify({"msg": "Party with id {} deleted".format(id)
 
                 }), 200)
+    
+
+@api.route('/politicalparties/<int:id>/<string:name>', methods = ["PATCH"])
+def edit_party_name(id, name):
+    
+    
+
+    
+    
+    for i in range(len(politicalparties_list)):
+        if politicalparties_list[i]['id'] == id:
+            politicalparty = politicalparties_list[i]
+            politicalparty['name'] = name
+            politicalparties_list[i] = politicalparty
+            break
+    
+    
+    return make_response(jsonify({
+                "Message": "Party name changed for {} ".format(id),
+                
+                "party": [politicalparty],
+            }), 200)
+    
+
+    
+    
+
+
+
 
     
