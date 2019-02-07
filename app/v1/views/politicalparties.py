@@ -1,103 +1,108 @@
 
 from flask import Flask, make_response, jsonify, request, abort
-from .politicalmain import api
+from .politicalmain import api, response
 
 app = Flask(__name__)
 
 
 politicalparties_list = []
-def generate_id(list):
-    """ Creates a unique ID for a new item to be added to the list"""
+party_id = len(politicalparties_list) + 1
 
-    return len(list) + 1
 
 @api.route('/politicalparties', methods = ["POST","GET"])
 def add_politicalparties():
-    """
-        Create a new political party  - POST request
-    """
+    #Create a new political party  - POST request
+    
     if request.method == "POST":
+        try: 
 
-        data = request.get_json()
-        name = data ['name']
-        abbreviation = data ['abbreviation']
-        members = data ['members']
-        headquarters = data ['headquarters']
-        chairperson = data ['chairperson']
+            data = request.get_json()
+            
+            name = data['name']
+            abbreviation = data['abbreviation']
+            members = data['members']
+            headquarters = data['headquarters']
+            chairperson = data['chairperson']
 
-        new_politicalparty = { 
-                "id": generate_id(politicalparties_list),
-                "name" : name ,
-                "abbreviation" : abbreviation ,
-                "members" : members ,
-                "headquarters": headquarters,
-                "chairperson": chairperson
-                }
+            new_politicalparty = { 
+                    "party_id": party_id,
+                    "name" : name ,
+                    "abbreviation" : abbreviation ,
+                    "members" : members ,
+                    "headquarters": headquarters,
+                    "chairperson": chairperson
+                    }
+            if not name.isalpha() or not abbreviation.isalpha() or not headquarters.isalpha() or not chairperson.isalpha():
+                pass
+            if not members.isdigit():
+                pass
+            
+            
+
+        except:
+                return response (400, "Please fill in all the fields as required: members as numbers, the rest as text",[])
+
+        else:
+
+            politicalparties_list.append(new_politicalparty)
         
-        politicalparties_list.append(new_politicalparty)
-        
-        return make_response(jsonify({
-            "Message": "New Political Party Created",
-            "party name": new_politicalparty['name'],
-            "party id": new_politicalparty['id'],
-         }), 201)
+            return response (201, "", [
+                    {
+                        "id" : party_id,
+                        "name" : name,
+                    }])
 
 
     elif request.method == "GET":
-        return make_response(jsonify({
-                "parties": politicalparties_list,
-                "status": "Ok"
-            }), 200)
+    
+        return response(200, "", politicalparties_list)
 
-@api.route('/politicalparties/<int:id>', methods = ["GET", "DELETE"])
-def specific_politicalparty(id):
+@api.route('/politicalparties/<int:party_id>', methods = ["GET", "DELETE"])
+def specific_politicalparty(party_id):
     #View specific political party - GET request
-    new_politicalparty = [new_politicalparty for new_politicalparty in politicalparties_list if new_politicalparty['id'] == id]
+    new_politicalparty = [new_politicalparty for new_politicalparty in politicalparties_list if new_politicalparty['party_id'] == party_id]
     
-    #if len(new_politicalparty) == 0:
-        #abort(404, 'Party does not exist')
+    if len(new_politicalparty) == 0:
+        return response(404, "party does not exist", [])
 
-    if request.method == 'GET':
-        return make_response(jsonify({
-                    "parties": new_politicalparty,
-                    "status": "Ok"
-                }), 200)
-    
-    elif request.method == 'DELETE':
+    else:
+        if request.method == 'GET':
+            return response(200, "", new_politicalparty)
         
-        new_politicalparty.pop
+        elif request.method == 'DELETE':
+            
+            new_politicalparty.pop
 
-        return make_response(jsonify({"msg": "Party with id {} deleted".format(id)
+            return response(204, "Party with id {} deleted".format(party_id), [] )
+        
+        else:
 
-                }), 200)
-    
+            return response(405, "The method used is not allowed", [])
 
-@api.route('/politicalparties/<int:id>/<string:name>', methods = ["PATCH"])
-def edit_party_name(id, name):
-    
-    
 
+
+@api.route('/politicalparties/<int:party_id>/<string:name>', methods = ["PATCH"])
+def edit_party_name(party_id, name):
+
+    new_politicalparty = [new_politicalparty for new_politicalparty in politicalparties_list if new_politicalparty['party_id'] == party_id]
     
+    if len(new_politicalparty) == 0:
+        return response(404, "party does not exist", [])
+
+    elif request.method != 'PATCH':
+
+            return response(405, "The method used is not allowed", [])
     
-    for i in range(len(politicalparties_list)):
-        if politicalparties_list[i]['id'] == id:
-            politicalparty = politicalparties_list[i]
-            politicalparty['name'] = name
-            politicalparties_list[i] = politicalparty
-            break
-    
-    
-    return make_response(jsonify({
-                "Message": "Party name changed for {} ".format(id),
+    else:
+        for i in range(len(politicalparties_list)):
+            if politicalparties_list[i]['party_id'] == party_id:
+                politicalparty = politicalparties_list[i]
+                politicalparty['name'] = name
+                politicalparties_list[i] = politicalparty
                 
-                "party": [politicalparty],
-            }), 200)
-    
-
-    
-    
-
-
-
-
-    
+        
+        return response (200, "", [
+                    {
+                        "id" : party_id,
+                        "name" : name,
+                    }])
