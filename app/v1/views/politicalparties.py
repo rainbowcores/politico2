@@ -49,20 +49,26 @@ def add_politicalparties():
                 "status": "Ok"
             }), 200)
 
-@api.route('/politicalparties/<int:id>', methods = ["GET"])
+@api.route('/politicalparties/<int:id>', methods = ["GET", "DELETE", "PUT"])
 def specific_politicalparty(id):
     #View specific political party - GET request
     new_politicalparty = [new_politicalparty for new_politicalparty in politicalparties_list if new_politicalparty['id'] == id]
     
-    if len(new_politicalparty) == 0:
-        abort(404, 'Party does not exist')
+    #if len(new_politicalparty) == 0:
+        #abort(404, 'Party does not exist')
 
     if request.method == 'GET':
         return make_response(jsonify({
-                    "parties": politicalparties_list,
+                    "parties": new_politicalparty,
                     "status": "Ok"
                 }), 200)
+    
+    elif request.method == 'DELETE':
+        
+        new_politicalparty.pop
 
+        return make_response(jsonify({"msg": "Party with id {} id deleted".format(id)
 
-            
+                }), 200)
 
+    

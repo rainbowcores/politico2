@@ -49,8 +49,8 @@ def specific_politicaloffice(id):
     #View specific political party - GET request
     new_politicaloffice = [new_politicaloffice for new_politicaloffice in politicaloffices_list if new_politicaloffice['id'] == id]
     
-    if len(new_politicaloffice) == 0:
-        abort(404, 'Office does not exist')
+    #if len(new_politicaloffice) == 0:
+        #abort(404, 'Office does not exist')
 
     if request.method == 'GET':
         return make_response(jsonify({
