@@ -18,7 +18,7 @@ def add_politicalparties():
             data = request.get_json()
             
             name = data['name']
-            abbreviation = data['abbreviation']
+            logoUrl = data['logoUrl']
             members = data['members']
             headquarters = data['headquarters']
             chairperson = data['chairperson']
@@ -26,12 +26,12 @@ def add_politicalparties():
             new_politicalparty ={ 
                     "party_id": len(politicalparties_list) + 1,
                     "name" : name ,
-                    "abbreviation" : abbreviation ,
+                    "logoUrl" : logoUrl ,
                     "members" : members ,
                     "headquarters": headquarters,
                     "chairperson": chairperson
                     }
-            if not name.isalpha() or not abbreviation.isalpha() or not headquarters.isalpha() or not chairperson.isalpha():
+            if not name.isalpha() or not logoUrl.isalpha() or not headquarters.isalpha() or not chairperson.isalpha():
                 pass
             if not members.isdigit():
                 pass
@@ -68,7 +68,6 @@ def specific_politicalparty(party_id):
     
     if len(new_politicalparty) == 0:
         return response(404, "party does not exist", [])
-
     else:
         if request.method == 'GET':
             return response(200, "", new_politicalparty)
