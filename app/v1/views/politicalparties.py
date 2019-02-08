@@ -64,6 +64,7 @@ def add_politicalparties():
 @api.route('/politicalparties/<int:party_id>', methods = ["GET", "DELETE"])
 def specific_politicalparty(party_id):
     #View specific political party - GET request
+    global politicalparties_list
     new_politicalparty = [new_politicalparty for new_politicalparty in politicalparties_list if new_politicalparty['party_id'] == party_id]
     
     if len(new_politicalparty) == 0:
@@ -73,7 +74,7 @@ def specific_politicalparty(party_id):
             return response(200, "", new_politicalparty)
         
         elif request.method == 'DELETE':
-            global politicalparties_list
+            
             politicalparties_list = [party for party in politicalparties_list if party['party_id'] != party_id]
             
             return response(
