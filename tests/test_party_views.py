@@ -9,28 +9,27 @@ class PoliticalPartiesTestCase(BaseTest):
     
 
     def test_politicalparty_creation (self):
-        """Test that API can create political party"""
+        
         response = self.client.post('/api/v1/politicalparties', json=self.politicalparty)
         self.assertEqual(response.status_code, 201)
 
     def test_politicalparty_empty_fields (self):
-        """Test that API can create political party"""
         response = self.client.post('/api/v1/politicalparties', json=self.missingpoliticalparty)
         self.assertEqual(response.status_code, 400)
 
     def test_politicalparty_datatype_fields (self):
-        """Test that API can create political party"""
+        
         response = self.client.post('/api/v1/politicalparties', json=self.stringpoliticalparty)
         self.assertEqual(response.status_code, 400)
     
     def test_politicalparty_members_datatype (self):
-        """Test that API can create political party"""
+        
         response = self.client.post('/api/v1/politicalparties', json=self.stringpoliticalparty)
         self.assertEqual(response.status_code, 400)
     
     
     def test_view_all_parties(self):
-        """Test that API can view all political parties"""
+        
         response = self.client.get('/api/v1/politicalparties', json=self.politicalparty)
         self.assertEqual(response.status_code, 200)
     
