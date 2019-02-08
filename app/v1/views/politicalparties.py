@@ -5,6 +5,7 @@ from .politicalmain import api, response
 app = Flask(__name__)
 
 
+
 politicalparties_list = []
 
 
