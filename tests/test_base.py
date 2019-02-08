@@ -15,7 +15,7 @@ class BaseTest(unittest.TestCase):
         self.politicalparty = { 
           
             "name" : "African Liberation Party" ,
-            "abbreviation" : "ALP" ,
+            "logoUrl" : "ALP" ,
             "members" : "15" ,
             "headquarters": "Biafra House, Kaaunda Road",
             "chairperson": "Betty Sade"
@@ -24,21 +24,21 @@ class BaseTest(unittest.TestCase):
         self.missingpoliticalparty = { 
           
             "name" : "African Liberation Party" ,
-            "abbreviation" : "ALP" ,
+            "logoUrl" : "ALP" ,
             "members" : "15" ,
             "headquarters": "Biafra House, Kaaunda Road",
             }
         self.stringpoliticalparty = { 
           
             "name" : "African Liberation Party" ,
-            "abbreviation" : 5 ,
+            "logoUrl" : 5 ,
             "members" : "15" ,
             "headquarters": "1",
             }
         self.memberpoliticalparty = { 
           
             "name" : "African Liberation Party" ,
-            "abbreviation" : "ALP" ,
+            "logoUrl" : "ALP" ,
             "members" : "M5",
             "headquarters": "KAUNDA",
             }
