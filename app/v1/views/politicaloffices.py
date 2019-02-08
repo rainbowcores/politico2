@@ -1,12 +1,11 @@
 
-from flask import Flask, make_response, jsonify, request, Blueprint, abort
+from flask import Flask, make_response, jsonify, request, Blueprint
 from .politicalmain import api, response
 
 app = Flask(__name__)
 
 
 politicaloffices_list = []
-office_id = len(politicaloffices_list) + 1
 
 
 
@@ -21,23 +20,20 @@ def add_politicaloffices():
             office_type = data ['office_type']
             name = data ['name']
             
-
-            new_politicaloffice = { 
-                    "office_id": office_id,
+            new_politicaloffice ={ 
+                    "office_id": len(politicaloffices_list) + 1,
                 
                     "office_type" : office_type ,
                     "name" : name 
                     
                     }
-            if not name.isalpha():
-                pass
-            if not office_type.isalpha():
+            if not office_type.isalpha() or not name.isalpha():
                 pass
         except:
-                return response (400, "Please fill in all the fields as required and as text", [])
+            return response (400, "Please fill in all the fields as required and as text", [])
 
         else:
-
+            office_id = len(politicaloffices_list) + 1
             politicaloffices_list.append(new_politicaloffice)
                 
             return response (201, "", [
