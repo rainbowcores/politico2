@@ -1,12 +1,12 @@
 
-from flask import Flask, make_response, jsonify, request, abort
+from flask import Flask, make_response, jsonify, request, Blueprint
 from .politicalmain import api, response
 
 app = Flask(__name__)
 
 
 politicalparties_list = []
-party_id = len(politicalparties_list) + 1
+
 
 
 @api.route('/politicalparties', methods = ["POST","GET"])
@@ -15,7 +15,6 @@ def add_politicalparties():
     
     if request.method == "POST":
         try: 
-
             data = request.get_json()
             
             name = data['name']
@@ -24,8 +23,8 @@ def add_politicalparties():
             headquarters = data['headquarters']
             chairperson = data['chairperson']
 
-            new_politicalparty = { 
-                    "party_id": party_id,
+            new_politicalparty ={ 
+                    "party_id": len(politicalparties_list) + 1,
                     "name" : name ,
                     "abbreviation" : abbreviation ,
                     "members" : members ,
@@ -44,8 +43,9 @@ def add_politicalparties():
 
         else:
 
+            party_id = len(politicalparties_list) + 1
             politicalparties_list.append(new_politicalparty)
-        
+            
             return response (201, "", [
                     {
                         "id" : party_id,
@@ -56,6 +56,10 @@ def add_politicalparties():
     elif request.method == "GET":
     
         return response(200, "", politicalparties_list)
+    
+    else:
+
+            return response(405, "The method used is not allowed", [])
 
 @api.route('/politicalparties/<int:party_id>', methods = ["GET", "DELETE"])
 def specific_politicalparty(party_id):
@@ -70,14 +74,13 @@ def specific_politicalparty(party_id):
             return response(200, "", new_politicalparty)
         
         elif request.method == 'DELETE':
+            global politicalparties_list
+            politicalparties_list = [party for party in politicalparties_list if party['party_id'] != party_id]
             
-            new_politicalparty.pop
-
-            return response(204, "Party with id {} deleted".format(party_id), [] )
+            return response(
+            204, 'deleted successfully', [new_politicalparty])
         
-        else:
-
-            return response(405, "The method used is not allowed", [])
+        
 
 
 
