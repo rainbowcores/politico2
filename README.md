@@ -29,7 +29,7 @@ while building trust in the process through transparency.
 
 + Install dependencies 
 
-`. venv/bin/activate`
+`pip install -r requirements.txt`
 
 ## Start the server and run the application
 
