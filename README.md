@@ -42,12 +42,12 @@ ___
 |---|---|---|
 | POST  | `/api/v1/politicalparties`  | Creates new political party  |
 | GET  | `/api/v1/politicalparties`  |  Get all political parties |
-| GET  |  `/api/v1/politicalparties/<int:party_id` |  Get a specific political party |
-| DELETE  |  `/api/v1/politicalparties/<int:party_id` | Delete a specific political party  |
-|  PATCH | `/api/v1/politicalparties/<int:party_id/name`  | Edit the name of a specific political party  |
+| GET  |  `/api/v1/politicalparties/<int:party_id>` |  Get a specific political party |
+| DELETE  |  `/api/v1/politicalparties/<int:party_id>` | Delete a specific political party  |
+|  PATCH | `/api/v1/politicalparties/<int:party_id>`  | Edit the name of a specific political party  |
 |  POST | `/api/v1/politicaloffices` |  Create a new political office |
 | GET  |  `/api/v1/politicaloffices` |  Get all political offices |
-| GET  | `/api/v1/politicaloffices/<int:office_id`  | Get a specific political office  |
+| GET  | `/api/v1/politicaloffices/<int:office_id>`  | Get a specific political office  |
 ___
 # Test the API
 #### Test the API Endpoints
