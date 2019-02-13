@@ -14,45 +14,22 @@ class BaseTest(unittest.TestCase):
         self.client = self.app.test_client()
         self.politicalparty = { 
           
-            "name" : "African Liberation Party" ,
+            "name" : "AfricanLiberationParty" ,
             "logoUrl" : "ALP" ,
-            "members" : "15" ,
-            "headquarters": "Biafra House, Kaaunda Road",
-            "chairperson": "Betty Sade"
+            "hqAddress" : "Biafra"
+        }
+        self.changepoliticalparty = { 
+          
+            "name" : "OrangeLiberationParty" ,
+            
         }
 
-        self.missingpoliticalparty = { 
-          
-            "name" : "African Liberation Party" ,
-            "logoUrl" : "ALP" ,
-            "members" : "15" ,
-            "headquarters": "Biafra House, Kaaunda Road",
-            }
-        self.stringpoliticalparty = { 
-          
-            "name" : "African Liberation Party" ,
-            "logoUrl" : 5 ,
-            "members" : "15" ,
-            "headquarters": "1",
-            }
-        self.memberpoliticalparty = { 
-          
-            "name" : "African Liberation Party" ,
-            "logoUrl" : "ALP" ,
-            "members" : "M5",
-            "headquarters": "KAUNDA",
-            }
+        
         self.politicaloffice = { 
             "office_type" : "County" ,
-            "name" : "Governor Kiambu" 
+            "name" : "GovernorKiambu" 
             }
-        self.missingpoliticaloffice = { 
-            "office_type" : "County" 
-            }
-        self.stringpoliticaloffice = { 
-            "office_type" : 1 ,
-            "name" : "Governor Kiambu" 
-            }
+        
         
 
     def tearDown(self):
