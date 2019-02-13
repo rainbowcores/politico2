@@ -14,10 +14,6 @@ class PoliticalPartiesTestCase(BaseTest):
         self.assertEqual(response.status_code, 201)
 
     
-    
-    
-    
-    
     def test_view_all_parties(self):
         
         response = self.client.get('/api/v1/politicalparties', json=self.politicalparty)
@@ -67,9 +63,5 @@ class PoliticalPartiesTestCase(BaseTest):
         response = self.client.post('/api/v1/politicalparties/1', json=self.politicalparty)
         self.assertEqual(response.status_code, 405)
     
-    #def test_edit_url_too_long(self):
-        #self.client.post('/api/v1/politicalparties', json=self.politicalparty)
-        #response = self.client.patch('/api/v1/politicalparties/14/Orange/Party')
-        #self.assertEqual(response.status_code, 405)
-
+    
 

@@ -1,7 +1,7 @@
 
 from flask import Flask, make_response, jsonify, request, Blueprint, json
 from .politicalmain import api, response
-from . .models.partiesmodel import PartyModel, politicalparties_list
+from ..models.partiesmodel import PartyModel, politicalparties_list
 app = Flask(__name__)
 
 
@@ -43,7 +43,6 @@ def add_politicalparties():
 def specific_politicalparty(party_id):
     #View specific political party - GET request
     global politicalparties_list
-    #new_politicalparty = [new_politicalparty for new_politicalparty in politicalparties_list if new_politicalparty['party_id'] == party_id]
     
 
     if request.method == "GET":
@@ -69,10 +68,7 @@ def specific_politicalparty(party_id):
 @api.route('/politicalparties/<int:party_id>', methods = ["PATCH"])
 def edit_party_name(party_id):
 
-    #new_politicalparty = [new_politicalparty for new_politicalparty in politicalparties_list if new_politicalparty['party_id'] == party_id]
-    
-    #if len(new_politicalparty) == 0:
-        #return response(404, "party does not exist", [])
+   
 
    
         data = request.get_json()

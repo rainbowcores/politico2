@@ -1,7 +1,7 @@
 
 from flask import Flask, make_response, jsonify, request, Blueprint
 from .politicalmain import api, response
-from . .models.officesmodel import OfficeModel, politicaloffices_list
+from ..models.officesmodel import OfficeModel, politicaloffices_list
 
 app = Flask(__name__)
 
@@ -20,7 +20,7 @@ def add_politicaloffices():
         name = data ['name']
         
         if not office_type.isalpha() or not name.isalpha():
-            return response (400, "Please fill in all the fields as required and as text", [])
+            return response (400, "Please fill in all the fields, office type and name should be txt", [])
 
         else:
             new_politicaloffice= OfficeModel(name, office_type)
@@ -36,7 +36,6 @@ def add_politicaloffices():
 @api.route('/politicaloffices/<int:office_id>', methods = ["GET"])
 def specific_politicaloffice(office_id):
     #View specific political office - GET request
-    #new_politicaloffice = [new_politicaloffice for new_politicaloffice in politicaloffices_list if new_politicaloffice['office_id'] == office_id]
     global politicaloffices_list
 
     office= OfficeModel.get_specific_office(office_id)

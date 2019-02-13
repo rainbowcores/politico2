@@ -2,8 +2,7 @@ politicaloffices_list = []
 
 class OfficeModel:
     
-    
-    office_id= 1
+  
     
 
     def __init__(self, name=None, office_type=None):
@@ -12,7 +11,7 @@ class OfficeModel:
         
         self.office_id= len(politicaloffices_list)+1
 
-        OfficeModel.office_id= len(politicaloffices_list)+1
+        OfficeModel.office_id= self.office_id
 
     def to_json(self):
    

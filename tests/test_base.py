@@ -20,13 +20,17 @@ class BaseTest(unittest.TestCase):
         }
         self.changepoliticalparty = { 
           
-            "name" : "OrangeLiberationParty" ,
+            "name" : "OrangeLiberationParty" 
             
         }
 
         
         self.politicaloffice = { 
             "office_type" : "County" ,
+            "name" : "GovernorKiambu" 
+            }
+
+        self.changepoliticaloffice = { 
             "name" : "GovernorKiambu" 
             }
         

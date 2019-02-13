@@ -3,7 +3,7 @@ politicalparties_list = []
 class PartyModel:
     
     
-    party_id= 1
+    
     
 
     def __init__(self, name=None, logoUrl=None, hqAddress=None):
@@ -12,7 +12,7 @@ class PartyModel:
         self.hqAddress= hqAddress
         self.party_id= len(politicalparties_list)+1
 
-        PartyModel.party_id= len(politicalparties_list)+1
+        PartyModel.party_id= self.party_id
 
     def to_json(self):
    
