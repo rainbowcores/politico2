@@ -21,7 +21,7 @@ def add_politicalparties():
         hqAddress = data['hqAddress']
 
         if not name.isalpha() or not logoUrl.isalpha() or not hqAddress.isalpha():
-            return response (400, "Please fill in all the fields as required: members as numbers, the rest as text",[])
+            return response (400, "Please fill in all the fields as name, logoUrl and hqAddress as text",[])
        
         else:
 
