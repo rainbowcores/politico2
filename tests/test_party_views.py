@@ -13,21 +13,17 @@ class PoliticalPartiesTestCase(BaseTest):
         response = self.client.post('/api/v1/politicalparties', json=self.politicalparty)
         self.assertEqual(response.status_code, 201)
 
-    def test_politicalparty_empty_fields (self):
+    def test_party_creation_missing_fields(self):
         response = self.client.post('/api/v1/politicalparties', json=self.missingpoliticalparty)
-        self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.status_code, 409)
 
-    def test_politicalparty_datatype_fields (self):
-        
-        response = self.client.post('/api/v1/politicalparties', json=self.stringpoliticalparty)
-        self.assertEqual(response.status_code, 400)
-    
-    def test_politicalparty_members_datatype (self):
-        
-        response = self.client.post('/api/v1/politicalparties', json=self.stringpoliticalparty)
-        self.assertEqual(response.status_code, 400)
-    
-    
+    def test_creation_party_exists(self):
+        self.client.post('/api/v1/politicalparties', json=self.politicalparty)
+
+        response = self.client.post('/api/v1/politicalparties', json=self.politicalparty)
+
+        self.assertEqual(response.status_code, 409)
+
     def test_view_all_parties(self):
         
         response = self.client.get('/api/v1/politicalparties', json=self.politicalparty)
@@ -63,10 +59,16 @@ class PoliticalPartiesTestCase(BaseTest):
     def test_edit_specific_party(self):
         self.client.post('/api/v1/politicalparties', json=self.politicalparty)
 
-        response = self.client.patch('/api/v1/politicalparties/1/Orange')
+        response = self.client.patch('/api/v1/politicalparties/1', json=self.changepoliticalparty)
 
         self.assertEqual(response.status_code, 200)
+    
+    def test_edit_party_name_exists(self):
+        self.client.post('/api/v1/politicalparties', json=self.politicalparty)
 
+        response = self.client.patch('/api/v1/politicalparties/1', json=self.politicalparty)
+
+        self.assertEqual(response.status_code, 409)
     def test_edit_party_not_found(self):
 
         self.client.post('/api/v1/politicalparties', json=self.politicalparty)
@@ -74,12 +76,8 @@ class PoliticalPartiesTestCase(BaseTest):
         self.assertEqual(response.status_code, 404)
 
     def test_wrong_edit_method_by_id(self):
-        response = self.client.post('/api/v1/politicalparties/1/oRANGE', json=self.politicalparty)
+        response = self.client.post('/api/v1/politicalparties/1', json=self.politicalparty)
         self.assertEqual(response.status_code, 405)
     
-    #def test_edit_url_too_long(self):
-        #self.client.post('/api/v1/politicalparties', json=self.politicalparty)
-        #response = self.client.patch('/api/v1/politicalparties/14/Orange/Party')
-        #self.assertEqual(response.status_code, 405)
-
+    
 

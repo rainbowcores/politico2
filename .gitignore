@@ -16,3 +16,5 @@ build/
 *.egg-info/
 
 Python-3.6.0/
+
+app/v1/models/usersmodel.py

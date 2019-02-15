@@ -1,11 +1,11 @@
 
 from flask import Flask, make_response, jsonify, request, Blueprint
 from .politicalmain import api, response
+from ..models.officesmodel import OfficeModel, politicaloffices_list
 
 app = Flask(__name__)
 
 
-politicaloffices_list = []
 
 
 
@@ -15,41 +15,34 @@ def add_politicaloffices():
     #Create a new political office  - POST request
     
     if request.method == "POST":
-        try:
-            data = request.get_json()
-            office_type = data ['office_type']
-            name = data ['name']
-            
-            new_politicaloffice ={ 
-                    "office_id": len(politicaloffices_list) + 1,
-                
-                    "office_type" : office_type ,
-                    "name" : name 
-                    
-                    }
-            if not office_type.isalpha() or not name.isalpha():
-                pass
-        except:
-            return response (400, "Please fill in all the fields as required and as text", [])
+        data = request.get_json()
+        office= OfficeModel.get_specific_office_name(data ['name'])
+        if not office:
+            try:
+                name = data ['name']
+                office_type = data ['office_type']
+        
+                if not office_type.isalpha() or not name.isalpha():
+                    return response (400, "Please fill in all the fields, office type and name should be txt", [])
 
+                else:
+                    new_politicaloffice= OfficeModel(name, office_type)
+                    politicaloffices_list.append(new_politicaloffice)
+                        
+                    return response (201, "New office was created", [new_politicaloffice.to_json()])
+            except KeyError:
+                return response (409, "Key error occured, please enter all the office fields", [])
         else:
-            office_id = len(politicaloffices_list) + 1
-            politicaloffices_list.append(new_politicaloffice)
-                
-            return response (201, "", [
-                {
-                    "id" : office_id,
-                    "name" : name,
-                }])
-
+            return response(409, "The party exists", [])
     elif request.method == "GET":
         #Get all political offices - GET request
-        return response(200, "", politicaloffices_list)
+        return response(200, "", [office.to_json() for office in politicaloffices_list])
 
 @api.route('/politicaloffices/<int:office_id>', methods = ["GET"])
 def specific_politicaloffice(office_id):
     #View specific political office - GET request
-    new_politicaloffice = [new_politicaloffice for new_politicaloffice in politicaloffices_list if new_politicaloffice['office_id'] == office_id]
-    return response(200, "", new_politicaloffice)
+    global politicaloffices_list
 
+    office= OfficeModel.get_specific_office(office_id)
+    return response(200, "", [office.to_json()])
 
