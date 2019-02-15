@@ -30,11 +30,19 @@ class PartyModel:
         for party in politicalparties_list:
             if party.party_id == party_id:
                return party
+
+    @staticmethod
+    def get_specific_party_name(name):
+        for party in politicalparties_list:
+            if party.name == name:
+               return party
     
     @staticmethod
-    def patch_party_name(party_id, name):
+    def patch_party_name(party_id, name=None, logoUrl=None, hqAddress=None):
         party= PartyModel.get_specific_party(party_id)
         party.name= name
+        party.logoUrl= logoUrl
+        party.hqAddress= hqAddress
         return party
                
     

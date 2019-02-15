@@ -16,22 +16,25 @@ def add_politicalparties():
     
     if request.method == "POST":
         data = request.get_json()
-        name = data['name']
-        logoUrl = data['logoUrl']
-        hqAddress = data['hqAddress']
+        party= PartyModel.get_specific_party_name(data['name']) 
+        if not party:
+            try:
+                name = data['name']
+                logoUrl = data['logoUrl']
+                hqAddress = data['hqAddress']
+                if not name.isalpha() or not logoUrl.isalpha() or not hqAddress.isalpha():
+                    return response (400, "Please fill in all the fields as name, logoUrl and hqAddress as text",[])
+                else:
 
-        if not name.isalpha() or not logoUrl.isalpha() or not hqAddress.isalpha():
-            return response (400, "Please fill in all the fields as name, logoUrl and hqAddress as text",[])
-       
+                    new_politicalparty= PartyModel(name, logoUrl, hqAddress)
+                
+                    politicalparties_list.append(new_politicalparty)
+                    
+                    return response (201, "New party was created", [new_politicalparty.to_json()])
+            except KeyError:
+                return response (409, "Key error occured, please enter all the fields", [])
         else:
-
-            new_politicalparty= PartyModel(name, logoUrl, hqAddress)
-            
-            politicalparties_list.append(new_politicalparty)
-            
-            return response (201, "New party was created", [new_politicalparty.to_json()])
-            
-
+            return response(409, "The party exists", [])
     elif request.method == "GET":
     
         return response(200, "", [party.to_json() for party in politicalparties_list])
@@ -67,17 +70,23 @@ def specific_politicalparty(party_id):
 
 @api.route('/politicalparties/<int:party_id>', methods = ["PATCH"])
 def edit_party_name(party_id):
-
-   
-
-   
         data = request.get_json()
-        name = data['name']
-    
-        party = PartyModel.patch_party_name(party_id, name)
+        party= PartyModel.get_specific_party_name(data['name']) 
+        if not party:
+            try:
+                name = data['name']
+                logoUrl = data['logoUrl']
+                hqAddress = data['hqAddress']
 
-        if party:
-            politicalparties_list.append(party)
-            return response (200, "party name changes", [party.to_json()])
+                party = PartyModel.patch_party_name(party_id, name,logoUrl, hqAddress)
+                if party:
+                    party.name= name
+                    party.logoUrl= logoUrl
+                    party.hqAddress= hqAddress
+                    return response (200, "party name changes", [party.to_json()])
+                else:
+                    return response(404, "party does not exist", [])
+            except KeyError:
+                return response (202, "Key error occured, please enter all the fields", [])
         else:
-            return response(404, "party does not exist", [])
+            return response(409, "The party name exists", [])

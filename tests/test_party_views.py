@@ -13,7 +13,17 @@ class PoliticalPartiesTestCase(BaseTest):
         response = self.client.post('/api/v1/politicalparties', json=self.politicalparty)
         self.assertEqual(response.status_code, 201)
 
-    
+    def test_party_creation_missing_fields(self):
+        response = self.client.post('/api/v1/politicalparties', json=self.missingpoliticalparty)
+        self.assertEqual(response.status_code, 409)
+
+    def test_creation_party_exists(self):
+        self.client.post('/api/v1/politicalparties', json=self.politicalparty)
+
+        response = self.client.post('/api/v1/politicalparties', json=self.politicalparty)
+
+        self.assertEqual(response.status_code, 409)
+
     def test_view_all_parties(self):
         
         response = self.client.get('/api/v1/politicalparties', json=self.politicalparty)
@@ -52,7 +62,13 @@ class PoliticalPartiesTestCase(BaseTest):
         response = self.client.patch('/api/v1/politicalparties/1', json=self.changepoliticalparty)
 
         self.assertEqual(response.status_code, 200)
+    
+    def test_edit_party_name_exists(self):
+        self.client.post('/api/v1/politicalparties', json=self.politicalparty)
 
+        response = self.client.patch('/api/v1/politicalparties/1', json=self.politicalparty)
+
+        self.assertEqual(response.status_code, 409)
     def test_edit_party_not_found(self):
 
         self.client.post('/api/v1/politicalparties', json=self.politicalparty)

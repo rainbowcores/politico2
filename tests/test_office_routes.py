@@ -11,6 +11,11 @@ class PoliticalOfficesTestCase(BaseTest):
         
         response = self.client.post('/api/v1/politicaloffices', json=self.politicaloffice)
         self.assertEqual(response.status_code, 201)
+
+    def test_office_creation_missing_fields(self):
+        response = self.client.post('/api/v1/politicaloffices', json=self.missingpoliticaloffice)
+        self.assertEqual(response.status_code, 409)
+    
     
     def test_view_all_parties (self):
         response = self.client.get('/api/v1/politicaloffices', json=self.politicaloffice)

@@ -4,6 +4,7 @@ import json
 from app import create_app
 
 
+
 class BaseTest(unittest.TestCase):
 
     
@@ -20,17 +21,21 @@ class BaseTest(unittest.TestCase):
         }
         self.changepoliticalparty = { 
           
-            "name" : "OrangeLiberationParty" 
-            
+            "name" : "OrangeLiberationParty", 
+            "logoUrl" : "ALP" ,
+            "hqAddress" : "Biafra"
         }
-
+        self.missingpoliticalparty = { 
+          
+            "name" : "NewLevelParty"
+        }
         
         self.politicaloffice = { 
             "office_type" : "County" ,
             "name" : "GovernorKiambu" 
             }
 
-        self.changepoliticaloffice = { 
+        self.missingpoliticaloffice = { 
             "name" : "GovernorKiambu" 
             }
         

@@ -29,6 +29,12 @@ class OfficeModel:
             if office.office_id == office_id:
                return office
     
+    @staticmethod
+    def get_specific_office_name(name):
+        for office in politicaloffices_list:
+            if office.name == name:
+               return office
+    
     
                
     
