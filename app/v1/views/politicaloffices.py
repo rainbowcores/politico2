@@ -16,24 +16,23 @@ def add_politicaloffices():
     
     if request.method == "POST":
         data = request.get_json()
-        office= OfficeModel.get_specific_office_name(data ['name'])
-        if not office:
-            try:
-                name = data ['name']
-                office_type = data ['office_type']
+        try:
+            name = data ['name']
+            office_type = data ['office_type']
+            if not office_type.isalpha() or not name.isalpha():
+                return response (400, "Office type and name should be text", [])
+            
+            office= OfficeModel.get_specific_office_name(data ['name'])
+            if not office:
+                new_politicaloffice= OfficeModel(name, office_type)
+                politicaloffices_list.append(new_politicaloffice)
+                return response (201, "New office was created", [new_politicaloffice.to_json()])
+            else:
+                return response(409, "The party exists", [])
+        except:
+            return response (400, "Please fill in all the fields, office type and name ", [])
         
-                if not office_type.isalpha() or not name.isalpha():
-                    return response (400, "Please fill in all the fields, office type and name should be txt", [])
-
-                else:
-                    new_politicaloffice= OfficeModel(name, office_type)
-                    politicaloffices_list.append(new_politicaloffice)
-                        
-                    return response (201, "New office was created", [new_politicaloffice.to_json()])
-            except KeyError:
-                return response (409, "Key error occured, please enter all the office fields", [])
-        else:
-            return response(409, "The party exists", [])
+        
     elif request.method == "GET":
         #Get all political offices - GET request
         return response(200, "", [office.to_json() for office in politicaloffices_list])
