@@ -16,25 +16,21 @@ def add_politicalparties():
     
     if request.method == "POST":
         data = request.get_json()
-        party= PartyModel.get_specific_party_name(data['name']) 
-        if not party:
-            try:
-                name = data['name']
-                logoUrl = data['logoUrl']
-                hqAddress = data['hqAddress']
-                if not name.isalpha() or not logoUrl.isalpha() or not hqAddress.isalpha():
-                    return response (400, "Please fill in all the fields as name, logoUrl and hqAddress as text",[])
-                else:
-
-                    new_politicalparty= PartyModel(name, logoUrl, hqAddress)
-                
-                    politicalparties_list.append(new_politicalparty)
-                    
-                    return response (201, "New party was created", [new_politicalparty.to_json()])
-            except KeyError:
-                return response (409, "Key error occured, please enter all the fields", [])
-        else:
-            return response(409, "The party exists", [])
+        try:
+            name = data['name']
+            logoUrl = data['logoUrl']
+            hqAddress = data['hqAddress']
+            if not name.isalpha() or not logoUrl.isalpha() or not hqAddress.isalpha():
+                return response (400, "Please fill in all the fields as name, logoUrl and hqAddress as text",[])
+            party= PartyModel.get_specific_party_name(data['name']) 
+            if not party:
+                new_politicalparty= PartyModel(name, logoUrl, hqAddress)
+                politicalparties_list.append(new_politicalparty)
+                return response (201, "New party was created", [new_politicalparty.to_json()])
+            else:
+                return response(409, "The party exists", [])
+        except:
+            return response (400, "Please fill in all the fields, name, logoUrl and hqAddress ", [])
     elif request.method == "GET":
     
         return response(200, "", [party.to_json() for party in politicalparties_list])

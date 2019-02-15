@@ -14,7 +14,7 @@ class PoliticalOfficesTestCase(BaseTest):
 
     def test_office_creation_missing_fields(self):
         response = self.client.post('/api/v1/politicaloffices', json=self.missingpoliticaloffice)
-        self.assertEqual(response.status_code, 409)
+        self.assertEqual(response.status_code, 400)
     
     
     def test_view_all_parties (self):

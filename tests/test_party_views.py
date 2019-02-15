@@ -15,7 +15,7 @@ class PoliticalPartiesTestCase(BaseTest):
 
     def test_party_creation_missing_fields(self):
         response = self.client.post('/api/v1/politicalparties', json=self.missingpoliticalparty)
-        self.assertEqual(response.status_code, 409)
+        self.assertEqual(response.status_code, 400)
 
     def test_creation_party_exists(self):
         self.client.post('/api/v1/politicalparties', json=self.politicalparty)
