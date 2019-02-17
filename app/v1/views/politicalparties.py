@@ -55,22 +55,18 @@ def specific_politicalparty(party_id):
 @api.route('/politicalparties/<int:party_id>', methods=["PATCH"])
 def edit_party_name(party_id):
         data = request.get_json()
-        party = PartyModel.get_specific_party_name(data['name'])
-        if not party:
-            try:
-                name = data['name']
-                logoUrl = data['logoUrl']
-                hqAddress = data['hqAddress']
+        try:
+            name = data['name']
+            logoUrl = data['logoUrl']
+            hqAddress = data['hqAddress']
 
-                party = PartyModel.patch_party_name(party_id, name, logoUrl, hqAddress)
-                if party:
-                    party.name = name
-                    party.logoUrl = logoUrl
-                    party.hqAddress = hqAddress
-                    return response(200, "party name changes", [party.to_json()])
-                else:
-                    return response(404, "party does not exist", [])
-            except KeyError:
-                return response(202, "Key error occured, please enter all the fields", [])
-        else:
-            return response(409, "The party name exists", [])
+            party = PartyModel.patch_party_name(party_id, name, logoUrl, hqAddress)
+            if party:
+                party.name = name
+                party.logoUrl = logoUrl
+                party.hqAddress = hqAddress
+                return response(200, "party details changed", [party.to_json()])
+            else:
+                return response(404, "party does not exist", [])
+        except KeyError:
+            return response(404, "Error changing the office", [])

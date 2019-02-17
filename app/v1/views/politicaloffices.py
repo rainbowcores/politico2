@@ -24,7 +24,7 @@ def add_politicaloffices():
             else:
                 return response(409, "The office exists", [])
         except:
-            return response(400, "Please fill in all the fields, office type and name ", [])
+            return response(409, "Please fill in all the fields, office type and name ", [])
 
     elif request.method == "GET":
         return response(200, "", [office.to_json() for office in politicaloffices_list])
@@ -51,20 +51,19 @@ def specific_politicaloffice(office_id):
 @api.route('/politicaloffices/<int:office_id>', methods=["PATCH"])
 def edit_office(office_id):
         data = request.get_json()
-        office = OfficeModel.get_specific_office_name(data['name'])
-        if not office:
-            try:
-                name = data['name']
-                office_type = data['office_type']
+        try:
+            name = data['name']
+            office_type = data['office_type']
+            if not office_type.isalpha() or not name.isalpha():
+                return response(400, "Office type and name should be text", [])
 
-                office = OfficeModel.patch_office_name(office_id, name, office_type)
-                if office:
-                    office.name = name
-                    office.office_type = office_type
-                    return response(200, "office name changes", [office.to_json()])
-                else:
-                    return response(404, "office does not exist", [])
-            except KeyError:
-                return response(202, "Key error occured, please enter all the fields", [])
-        else:
-            return response(409, "The office name exists", [])
+            office = OfficeModel.patch_office_name(office_id, name, office_type)
+            if office:
+                office.name = name
+                office.office_type = office_type
+                return response(200, "office details changed", [office.to_json()])
+            else:
+                return response(404, "office does not exist", [])
+        except:
+            return response(404, "error updating the office", [])
+       

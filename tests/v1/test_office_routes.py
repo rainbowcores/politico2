@@ -10,7 +10,7 @@ class PoliticalOfficesTestCase(BaseTest):
 
     def test_office_creation_missing_fields(self):
         response = self.client.post('/api/v1/politicaloffices', json=self.missingpoliticaloffice)
-        self.assertEqual(response.status_code, 400)
+        self.assertEqual(response.status_code, 409)
 
     def test_creation_office_exists(self):
         self.client.post('/api/v1/politicaloffices', json=self.changepoliticaloffice)
@@ -55,7 +55,7 @@ class PoliticalOfficesTestCase(BaseTest):
 
         response = self.client.patch('/api/v1/politicaloffices/3', json=self.politicaloffice)
 
-        self.assertEqual(response.status_code, 409)
+        self.assertEqual(response.status_code, 404)
 
     def test_edit_office_not_found(self):
 
