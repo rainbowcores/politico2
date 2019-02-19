@@ -1,0 +1,52 @@
+import os
+import datetime
+
+
+
+def set_up_tables():
+    users = """
+                CREATE TABLE IF NOT EXISTS users(
+                    id SERIAL PRIMARY KEY,
+                    firstname VARCHAR(128) NULL,
+                    lastname VARCHAR(128) NULL,
+                    nationalid VARCHAR(10) NULL UNIQUE,
+                    email VARCHAR(128) NOT NULL,
+                    phone_number VARCHAR(10)  NULL,
+                    passport_url VARCHAR(256)  NULL,
+                    password VARCHAR(256) NOT NULL,
+                    is_admin  boolean NOT NULL DEFAULT FALSE
+                );
+            """
+    parties = """
+            CREATE TABLE IF NOT EXISTS parties(
+                id SERIAL PRIMARY KEY,
+                name VARCHAR(100) NOT NULL UNIQUE,
+                hq_address VARCHAR(200) NOT NULL,
+                logo_url VARCHAR(256) NOT NULL UNIQUE
+            );
+        """
+    offices = """
+            CREATE TABLE IF NOT EXISTS offices(
+                id SERIAL PRIMARY KEY,
+                name VARCHAR(100) NOT NULL UNIQUE,
+                office_type VARCHAR(100) NOT NULL
+            );
+        """
+    candidates = """
+            CREATE TABLE IF NOT EXISTS candidates(
+                    id SERIAL,
+                    office INTEGER NOT NULL,
+                    user INTEGER NOT NULL
+                    
+                );
+            """
+    votes = """
+            CREATE TABLE IF NOT EXISTS votes(
+                id SERIAL,
+                created_on TIMESTAMP NOT NULL DEFAULT now(),
+                voter INTEGER ,
+                office INTEGER,
+                candidate INTEGER
+            );
+        """
+    return [users, parties, offices, candidates, votes]
