@@ -9,7 +9,7 @@ def initdb(db_url):
     try:
         # global conn, cur
         conn = psycopg2.connect(db_url)
-        cur = .conn.cursor()
+        cur = conn.cursor()
         tables = set_up_tables()
         for query in tables:
             cur.execute(query)
