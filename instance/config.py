@@ -6,7 +6,6 @@ class Config(object):
     DEBUG = False
     CSRF_ENABLED = True
     SECRET = os.getenv('SECRET')
-    Database_Url = os.getenv("Main_Database")
 
 
 class DevelopmentConfig(Config):

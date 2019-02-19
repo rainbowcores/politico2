@@ -1,6 +1,3 @@
-import os
-import datetime
-
 
 
 def set_up_tables():
@@ -36,8 +33,10 @@ def set_up_tables():
             CREATE TABLE IF NOT EXISTS candidates(
                     id SERIAL,
                     office INTEGER NOT NULL,
-                    user INTEGER NOT NULL
-                    
+                    candidate INTEGER NOT NULL,
+                    PRIMARY KEY(office, candidate),
+                    FOREIGN KEY (office) REFERENCES offices(id) ON DELETE CASCADE,
+                    FOREIGN KEY (candidate) REFERENCES users(id) ON DELETE CASCADE
                 );
             """
     votes = """
@@ -46,7 +45,10 @@ def set_up_tables():
                 created_on TIMESTAMP NOT NULL DEFAULT now(),
                 voter INTEGER ,
                 office INTEGER,
-                candidate INTEGER
+                candidate INTEGER,
+                PRIMARY KEY(voter, office),
+                FOREIGN KEY (office) REFERENCES offices(id) ON DELETE CASCADE,
+                FOREIGN KEY (voter) REFERENCES users(id) ON DELETE CASCADE
             );
         """
     return [users, parties, offices, candidates, votes]
