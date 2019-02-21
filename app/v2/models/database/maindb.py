@@ -1,3 +1,5 @@
+import psycopg2
+from flask import current_app as app
 
 
 def set_up_tables():
@@ -52,7 +54,8 @@ def set_up_tables():
                 FOREIGN KEY (voter) REFERENCES users(id) ON DELETE CASCADE
             );
         """
-    return [users, parties, offices, candidates, votes]
+    admin = """INSERT INTO users(firstname, lastname, nationalid, email, phone_number, passport_url, password , is_admin, is_politician) VALUES ('FMyAdmin', 'LMyAdmin', '33458802','myadmin@admin.com', '0725355719','adminurl','3668990hh' , True, False);"""
+    return [users, parties, offices, candidates, votes, admin]
 
 
 def drop_tables():
@@ -62,4 +65,11 @@ def drop_tables():
     drop_candidates = """ DROP TABLE IF EXISTS candidates CASCADE"""
     drop_votes = """ DROP TABLE IF EXISTS votes CASCADE"""
 
-    return [drop_users, drop_parties, drop_offices, drop_votes, drop_candidates]
+    tables = [drop_users, drop_parties, drop_offices, drop_votes, drop_candidates]
+    db_url = app.config["DATABASE_URL"]
+    conn = psycopg2.connect(db_url)
+    cur = conn.cursor()
+    for query in tables:
+        cur.execute(query)
+        conn.commit()
+    conn.close()

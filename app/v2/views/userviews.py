@@ -21,7 +21,7 @@ def user_signup():
         passport_url = user_data["passport_url"]
         password = user_data["password"]
     except Exception:
-        return abort (response(400, "Please enter all the fields"))
+        return abort(response(400, "Please enter all the fields"))
 
     new_user = Users(firstname=firstname, lastname=lastname, nationalid=nationalid, email=email, phone_number=phone_number, passport_url=passport_url, password=password)
     data = new_user.create_user()
@@ -66,3 +66,4 @@ def reset_password():
         return response(200, "Reset link sent")
     except:
         return abort(response(400, "Error sending password reset link"))
+

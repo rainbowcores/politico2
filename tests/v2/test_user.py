@@ -42,6 +42,9 @@ class UserTest(unittest.TestCase):
     def test_signup(self):
         request = self.client.post('/api/v2/auth/signup', json=self.usersignup)
         self.assertEqual(request.status_code, 201)
+        ee = json.loads(
+           request.data.decode("utf-8"))
+        print(ee)
 
     def test_signup_missing(self):
         request = self.client.post('/api/v2/auth/signup', json=self.usermissing)
@@ -56,4 +59,3 @@ class UserTest(unittest.TestCase):
         self.client.post('/api/v2/auth/signup', json=self.usersignup)
         request = self.client.post('/api/v2/auth/reset', json=self.reset)
         self.assertEqual(request.status_code, 200)
-    
