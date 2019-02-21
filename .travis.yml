@@ -1,18 +1,17 @@
-
 language: python
 python:
- - "3.6"
+- "3.6"
 install:
- - pip install -r requirements.txt
- - pip install coveralls
+- pip install -r requirements.txt
+- pip install coveralls
 services:
- - postgresql
+- postgresql
 before_script:
- - psql -c "CREATE DATABASE politico_test_db;" -U postgres
- - psql -c "CREATE USER christine WITH PASSWORD '1234567';" -U postgres
+- psql -c "CREATE DATABASE politico_test_db;" -U postgres
+- psql -c "CREATE USER christine WITH PASSWORD '1234567';" -U postgres
 env:
- -  Test_Database="postgres://christine:1234567@localhost/politico_test" Main_Database="postgres://christine:1234567@localhost:5432/politico" SECRET="mysecret"
+-  Test_Database="postgres://christine:1234567@localhost/politico_test_db" SECRET="mysecret"
 script:
- - python -m pytest --cov=app tests/
+- python -m pytest --cov=app tests/
 after_success:
- - coveralls
+- coveralls
