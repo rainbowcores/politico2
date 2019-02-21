@@ -4,9 +4,11 @@ from app.v2.models.usersmodel import Users
 import os
 import jwt
 
+
 KEY = os.getenv('SECRET')
 
 app = Flask(__name__)
+
 
 
 @thisapi.route('/auth/signup', methods=['POST'])

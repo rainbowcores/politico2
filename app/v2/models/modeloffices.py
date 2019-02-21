@@ -3,12 +3,11 @@ from app.v2.models.database.database_config import fetch_single_row
 from app.v2.views.mainview import response
 from flask import abort
 from flask import current_app as app
-from werkzeug.security import generate_password_hash, check_password_hash
 
 
 class Offices:
 
-    def __init__(self, name=None, office_type=None):
+    def __init__(self, name, office_type):
         self.name = name
         self.office_type = office_type
 
@@ -20,7 +19,7 @@ class Offices:
 
     def create_office(self):
         query = """ INSERT INTO offices(name, office_type) VALUES ('{}','{}')""".format(self.name, self.office_type)
-        office_exists = Users.get_by_email(self.name)
+        office_exists = Offices.get_by_name(self.name)
         if office_exists:
             return abort(response(400, "Office exists"))
         try:
@@ -50,8 +49,8 @@ class Offices:
             return error
 
     @staticmethod
-    def get_by_name:
-        query = """SELECT name, office_type FROM users WHERE name='{name}';""".format(name=name)
+    def get_by_name(name):
+        query = """SELECT name, office_type FROM offices WHERE name='{name}';""".format(name=name)
         try:
             db_url = app.config["DATABASE_URL"]
             conn = psycopg2.connect(db_url)
@@ -62,4 +61,3 @@ class Offices:
             return row
         except Exception as error:
             return error
-
