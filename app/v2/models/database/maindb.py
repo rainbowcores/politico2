@@ -11,7 +11,8 @@ def set_up_tables():
                     phone_number VARCHAR(10)  NULL,
                     passport_url VARCHAR(256)  NULL,
                     password VARCHAR(256) NOT NULL,
-                    is_admin  boolean NOT NULL DEFAULT FALSE
+                    is_admin  boolean NOT NULL DEFAULT FALSE,
+                    is_politician  boolean NOT NULL DEFAULT FALSE
                 );
             """
     parties = """
@@ -52,3 +53,13 @@ def set_up_tables():
             );
         """
     return [users, parties, offices, candidates, votes]
+
+
+def drop_tables():
+    drop_users = """ DROP TABLE IF EXISTS users CASCADE"""
+    drop_parties = """ DROP TABLE IF EXISTS parties CASCADE"""
+    drop_offices = """ DROP TABLE IF EXISTS offices CASCADE"""
+    drop_candidates = """ DROP TABLE IF EXISTS candidates CASCADE"""
+    drop_votes = """ DROP TABLE IF EXISTS votes CASCADE"""
+
+    return [drop_users, drop_parties, drop_offices, drop_votes, drop_candidates]
