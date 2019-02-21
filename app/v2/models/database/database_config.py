@@ -14,7 +14,6 @@ def initdb():
         conn = psycopg2.connect(db_url)
         cur = conn.cursor()
         tables = set_up_tables()
-        print(tables)
         for query in tables:
             cur.execute(query)
             conn.commit()
@@ -52,7 +51,6 @@ def query_db(query):
     try:
         cur, conn = db_conn()
         cur.execute(query)
-        print(query)
         conn.commit()
         conn.close()
     except Exception as error:

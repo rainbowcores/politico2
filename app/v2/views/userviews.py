@@ -40,18 +40,29 @@ def userlogin():
         user = Users.get_by_email(email)
         if not user:
             return abort(response(401, "User does not exist"))
-        
-        
-        
         encoded = jwt.encode({"email": email}, KEY, algorithm='HS256')
         return response(200, "data", {
             "message": "Logged in successfully",
             "token": encoded.decode('UTF-8'),
             "user": {
-                
                 "email": email
             }
         })
     except Exception as error:
         return error
     
+@thisapi.route("/auth/reset", methods=["POST"])
+def reset_password():
+    try:
+        data = request.get_json()
+        email = data["email"]
+    except:
+        return abort (response(400, "enter email"))
+
+    try:
+        user = Users.get_by_email(email)
+        if not user:
+            return abort(response(404, "Email does not belong to any account"))
+        return response(200, "Reset link sent")
+    except:
+        return abort(response(400, "Error sending password reset link"))

@@ -32,6 +32,9 @@ class UserTest(unittest.TestCase):
             "email": "jmm@mim.com",
             "password": "23232323"
         }
+        self.reset = {
+            "email": "mim@kkkkkk.com"
+        }
 
     def tearDown(self):
         drop_tables()
@@ -48,3 +51,9 @@ class UserTest(unittest.TestCase):
         self.client.post('/api/v2/auth/signup', json=self.usersignup)
         request = self.client.post('/api/v2/auth/login', json=self.loginwrongemail)
         self.assertEqual(request.status_code, 401)
+    
+    def test_reset_password(self):
+        self.client.post('/api/v2/auth/signup', json=self.usersignup)
+        request = self.client.post('/api/v2/auth/reset', json=self.reset)
+        self.assertEqual(request.status_code, 200)
+    
