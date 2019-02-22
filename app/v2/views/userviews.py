@@ -27,7 +27,6 @@ def user_signup():
         password = user_data["password"]
     except:
         return abort(response(400, "Please enter all the fields"))
-    
     if(validations.is_string(firstname) is False):
         return response(400, "Firstname should be a string")
     if(validations.is_string(lastname) is False):
