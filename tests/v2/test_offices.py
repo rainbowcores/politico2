@@ -60,5 +60,5 @@ class UserTest(unittest.TestCase):
         self.client.post('/api/v2/auth/register', json=self.usersignup)
         response = self.client.post('/api/v2/offices/1/register', json=self.candidate)
 
-        self.assertEqual(response.status_code, 201)
+        self.assertEquals(response.json, dict(message='Candidate already registered', data=None, status=400))
     

@@ -62,11 +62,16 @@ def register_candidate(office_id):
         return response(400, "User should be an integer")
     if(validations.is_integer(office) is False):
         return response(400, "Office should be an integer")
+    if office_id != office:
+        return abort(response(400, "Please register candidate for this office only"))
     thecandidate = Usermethods().get_by_id(candidate)
     if not thecandidate:
         return response(404, "user does not exist")
-    office = Officemethods().get_by_id(office)
-    if not office:
+    thiscandidate = Candidatemethods().candidate_registered(candidate, office)
+    if thiscandidate:
+        return abort(response(400, "Candidate already registered"))
+    new_office = Officemethods().get_by_id(office)
+    if not new_office:
         return response(404, "office does not exist")
     new_candidate = Candidates(candidate=candidate, office=office)
     data = new_candidate.create_candidate()

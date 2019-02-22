@@ -13,7 +13,7 @@ class Candidates:
         self.candidate = candidate
 
     def create_candidate(self):
-        query = """ INSERT INTO candidates('office', 'candidate') VALUES ('{}','{}')""".format(self.office, self.candidate)
+        query = """ INSERT INTO candidates(office, candidate) VALUES ('{}','{}')""".format(self.office, self.candidate)
         try:
             db_url = app.config["DATABASE_URL"]
             conn = psycopg2.connect(db_url)
