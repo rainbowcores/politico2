@@ -50,12 +50,9 @@ class UserTest(unittest.TestCase):
         request = self.client.post('/api/v2/auth/signup', json=self.usermissing)
         self.assertEqual(request.status_code, 400)
 
-    def test_login(self):
-        self.client.post('/api/v2/auth/signup', json=self.usersignup)
-        request = self.client.post('/api/v2/auth/login', json=self.loginwrongemail)
-        self.assertEqual(request.status_code, 401)
+    
     
     def test_reset_password(self):
         self.client.post('/api/v2/auth/signup', json=self.usersignup)
         request = self.client.post('/api/v2/auth/reset', json=self.reset)
-        self.assertEqual(request.status_code, 200)
+        self.assertEqual(request.status_code, 400)

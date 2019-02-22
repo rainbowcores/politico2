@@ -2,8 +2,6 @@ import psycopg2
 from app.v2.views.mainview import response
 from flask import abort
 from flask import current_app as app
-from werkzeug.security import generate_password_hash, check_password_hash
-
 
 class Users:
 
@@ -18,10 +16,7 @@ class Users:
 
     def create_user(self):
         query = """ INSERT INTO users(firstname, lastname, nationalid, email, phone_number, passport_url, password) VALUES ('{}','{}', '{}', '{}', '{}', '{}', '{}')""".format(self.firstname, self.lastname, self.nationalid, self.email, self.phone_number, self.passport_url, self.password)
-        user_exists = Users.get_by_email(self.email)
-        print(user_exists)
-        if user_exists:
-            return abort(response(400, "User exists"))
+        
         try:
             db_url = app.config["DATABASE_URL"]
             conn = psycopg2.connect(db_url)
@@ -45,30 +40,4 @@ class Users:
             password=self.password
             )
 
-    @staticmethod
-    def get_by_email(email):
-        query = """SELECT firstname, lastname, nationalid, email, phone_number, passport_url, password FROM users WHERE email='{email}';""".format(email=email)
-        try:
-            db_url = app.config["DATABASE_URL"]
-            conn = psycopg2.connect(db_url)
-            cur = conn.cursor()
-            cur.execute(query)
-            row = cur.fetchone()
-            conn.commit()
-            return row
-        except Exception as error:
-            return error
-
-    @staticmethod
-    def get_by_id(id):
-        query = """SELECT firstname, lastname, nationalid, email, phone_number, passport_url, password FROM users WHERE id='{id}';""".format(id=id)
-        try:
-            db_url = app.config["DATABASE_URL"]
-            conn = psycopg2.connect(db_url)
-            cur = conn.cursor()
-            cur.execute(query)
-            row = cur.fetchone()
-            conn.commit()
-            return row
-        except Exception as error:
-            return error
+    

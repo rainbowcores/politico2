@@ -62,15 +62,3 @@ def query_db(query):
     except Exception as error:
         return error
 
-
-def fetch_single_row(query):
-    try:
-        db_url = app.config["DATABASE_URL"]
-        conn = psycopg2.connect(db_url)
-        cur = conn.cursor()
-        cur.execute(query)
-        row = cur.fetchone()
-        conn.commit()
-        return row
-    except Exception as error:
-        return error
