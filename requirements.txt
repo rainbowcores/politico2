@@ -39,6 +39,7 @@ pur==5.2.1
 py==1.7.0
 pycodestyle==2.5.0
 pycparser==2.19
+PyJWT==1.7.1
 pylint==1.9.4
 pyOpenSSL==19.0.0
 pytest==4.2.0
@@ -46,7 +47,6 @@ pytest-cov==2.6.1
 python-coveralls==2.9.1
 python-dotenv==0.10.1
 pytz==2018.9
-PyYAML==3.13
 requests==2.21.0
 scandir==1.9.0
 singledispatch==3.4.0.3

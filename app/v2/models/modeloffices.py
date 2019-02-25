@@ -6,10 +6,9 @@ from flask import current_app as app
 
 class Offices:
 
-    def __init__(self, name=None, logoUrl=None, hqAddress=None):
+    def __init__(self, name, office_type):
         self.name = name
-        self.logoUrl = logoUrl
-        self.hqAddress = hqAddress
+        self.office_type = office_type
 
     def to_json(self):
         return dict(
@@ -18,7 +17,7 @@ class Offices:
             )
 
     def create_office(self):
-        query = """ INSERT INTO parties(name=None, logoUrl=None, hqAddress=None) VALUES ('{}','{}','{}')""".format(self.name, self.logoUrl, self.hqAddress)
+        query = """ INSERT INTO offices(name, office_type) VALUES ('{}','{}')""".format(self.name, self.office_type)
     
         try:
             db_url = app.config["DATABASE_URL"]
