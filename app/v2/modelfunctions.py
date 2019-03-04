@@ -40,7 +40,7 @@ class Officemethods:
 class Candidatemethods:
     @staticmethod
     def candidate_registered(candidate, office):
-        query = """SELECT candidate, office FROM candidates WHERE candidates.candidate = '{}' AND candidates.office = '{}'""".format(candidate, office)
+        query = """SELECT * FROM candidates WHERE candidate = '{candidate}' AND office = '{office}'""".format(candidate=candidate, office=office)
         try:
             db_url = app.config["DATABASE_URL"]
             conn = psycopg2.connect(db_url)
