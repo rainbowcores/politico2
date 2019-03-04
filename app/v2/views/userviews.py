@@ -55,7 +55,7 @@ def user_signup():
         return abort(response(400, "Password should be more than 6 characters with letters numbers and symbols"))
     if(validations.is_numbers(phone_number) is False):
         return abort(response(400, "Enter a correct phone number"))
-    
+
     user = Usermethods().get_by_email(email)
     if user:
         return abort (response(400, "user exists"))
@@ -67,7 +67,7 @@ def user_signup():
             "email": new_user.email,
             "firstname": new_user.firstname}
         })
-    
+
 
 @thisapi.route('/auth/login', methods=['POST'])
 def userlogin():
@@ -86,7 +86,7 @@ def userlogin():
     if (validations.spaces(user_login, ["email", "password"]) is False):
         return response(400, "No field can be empty")
     try:
-        user = get_by_email(email)
+        user = Usermethods().get_by_email(email)
         if not user:
             return abort(response(401, "User does not exist"))
         encoded = jwt.encode({"email": email}, KEY, algorithm='HS256')
@@ -109,7 +109,7 @@ def reset_password():
         return abort (response(400, "enter email"))
 
     try:
-        user = get_by_email(email)
+        user = Usermethods().get_by_email(email)
         if not user:
             return abort(response(404, "Email does not belong to any account"))
         return response(200, "Reset link sent")
