@@ -99,7 +99,8 @@ def userlogin():
         })
     except Exception as error:
         return error
-    
+
+
 @thisapi.route("/auth/reset", methods=["POST"])
 def reset_password():
     try:
@@ -107,11 +108,7 @@ def reset_password():
         email = data["email"]
     except:
         return abort (response(400, "enter email"))
-
-    try:
-        user = Usermethods().get_by_email(email)
-        if not user:
-            return abort(response(404, "Email does not belong to any account"))
-        return response(200, "Reset link sent")
-    except:
-        return abort(response(400, "Error sending password reset link"))
+    user = Usermethods().get_by_email(email)
+    if not user:
+        return abort(response(404, "Email does not belong to any account"))
+    return response(200, "Reset link sent")

@@ -2,6 +2,7 @@ from flask import abort
 from app.v2.models.modeloffices import Offices
 from app.v2.models.usersmodel import Users
 from app.v2.models.candidatemodel import Candidates
+from app.v2.models.votesmodel import Votes
 from app.v2.views.mainview import response
 from flask import current_app as app
 import psycopg2
@@ -51,6 +52,34 @@ class Candidatemethods:
             return row
         except Exception as error:
             return error
+        
+    @staticmethod
+    def get_by_id(id):
+        query = """SELECT * FROM candidates WHERE id='{id}';""".format(id=id)
+        try:
+            db_url = app.config["DATABASE_URL"]
+            conn = psycopg2.connect(db_url)
+            cur = conn.cursor()
+            cur.execute(query)
+            row = cur.fetchone()
+            conn.commit()
+            return row
+        except Exception as error:
+            return error
+
+    @staticmethod
+    def get_by_office(office):
+        query = """SELECT * FROM candidates WHERE office='{office}';""".format(office=office)
+        try:
+            db_url = app.config["DATABASE_URL"]
+            conn = psycopg2.connect(db_url)
+            cur = conn.cursor()
+            cur.execute(query)
+            row = cur.fetchone()
+            conn.commit()
+            return row
+        except Exception as error:
+            return error
 
 
 class Usermethods:
@@ -81,4 +110,19 @@ class Usermethods:
             return row
         except Exception as error:
             return error
-    
+
+
+class Votesmethods:
+    @staticmethod
+    def vote_exists(voter, candidate, office):
+        query = """SELECT * FROM votes WHERE voter = '{voter}' AND candidate = '{candidate}' AND office = '{office}'""".format(voter=voter, candidate=candidate, office=office)
+        try:
+            db_url = app.config["DATABASE_URL"]
+            conn = psycopg2.connect(db_url)
+            cur = conn.cursor()
+            cur.execute(query)
+            row = cur.fetchone()
+            conn.commit()
+            return row
+        except Exception as error:
+            return error
