@@ -111,11 +111,27 @@ class VoterTest(unittest.TestCase):
         self.client.post('/api/v2/offices/1/register', json=self.candidate)
         response = self.client.post('/api/v2/vote', json=self.candidatenotregisteredforoffice)
         self.assertEqual(response.status_code, 400)
-    
-    def test_add_vote(self):
+
+    def test_add_vote_wrong(self):
         self.client.post('/api/v2/offices', json=self.politicaloffice)
         self.client.post('/api/v2/auth/register', json=self.usersignup)
         self.client.post('/api/v2/offices/1/register', json=self.candidate)
         self.client.post('/api/v2/vote', json=self.newvote)
         response = self.client.post('/api/v2/vote', json=self.newvote)
         self.assertEqual(response.status_code, 400)
+
+    def test_results(self):
+        self.client.post('/api/v2/offices', json=self.politicaloffice)
+        self.client.post('/api/v2/auth/register', json=self.usersignup)
+        self.client.post('/api/v2/offices/1/register', json=self.candidate)
+        self.client.post('/api/v2/vote', json=self.newvote)
+        response = self.client.get('/api/v2/offices/1/result')
+        self.assertEqual(response.status_code, 200)
+
+    def test_results_wrongoffice(self):
+        self.client.post('/api/v2/offices', json=self.politicaloffice)
+        self.client.post('/api/v2/auth/register', json=self.usersignup)
+        self.client.post('/api/v2/offices/1/register', json=self.candidate)
+        self.client.post('/api/v2/vote', json=self.newvote)
+        response = self.client.get('/api/v2/offices/100/result')
+        self.assertEqual(response.status_code, 404)

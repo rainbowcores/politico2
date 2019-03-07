@@ -126,3 +126,30 @@ class Votesmethods:
             return row
         except Exception as error:
             return error
+    @staticmethod
+    def office_has_votes(office):
+        query = """SELECT * FROM votes WHERE office = '{office}'""".format(office=office)
+        try:
+            db_url = app.config["DATABASE_URL"]
+            conn = psycopg2.connect(db_url)
+            cur = conn.cursor()
+            cur.execute(query)
+            row = cur.fetchone()
+            conn.commit()
+            return row
+        except Exception as error:
+            return error
+
+    @staticmethod
+    def results(office):
+        query = """SELECT candidate, COUNT(*) AS office FROM votes WHERE office = {office} GROUP BY candidate, office;""".format(office=office)
+        try:
+            db_url = app.config["DATABASE_URL"]
+            conn = psycopg2.connect(db_url)
+            cur = conn.cursor()
+            cur.execute(query)
+            rows = cur.fetchall()
+            conn.commit()
+            return rows
+        except Exception as error:
+            return error

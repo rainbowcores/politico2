@@ -1,12 +1,12 @@
 
-from flask import Flask, make_response, jsonify, request, Blueprint, abort
+from flask import Flask, make_response, jsonify, request, Blueprint, abort, json
 from app.v2.views.mainview import thisapi, response
 from app.v2.models.candidatemodel import Candidates
 from app.v2.models import modeloffices
 import psycopg2
 from app.v2 import validations
 from app.v2 import modelfunctions
-from app.v2.modelfunctions import Usermethods, Officemethods, Candidatemethods
+from app.v2.modelfunctions import Usermethods, Officemethods, Candidatemethods, Votesmethods
 
 
 app = Flask(__name__)
@@ -81,3 +81,22 @@ def register_candidate(office_id):
             "office": new_candidate.office,
             "user": new_candidate.candidate}
         })
+
+@thisapi.route('/offices/<int:office_id>/result', methods=["GET"])
+def get_results(office_id):
+        office = Officemethods().get_by_id(office_id)
+        if not office:
+            return response(404, "office does not exist")
+        office = Votesmethods().office_has_votes(office_id)
+        if not office:
+            return response(404,"The office has not been voted for yet")
+        office = Votesmethods().results(office_id)
+        print(office)
+        results = []
+        for i in office:
+            data = {
+                "candidate": i[0],
+                "results": i[1]
+            }
+            results.append(data)
+        return response(200, "Results", results)
