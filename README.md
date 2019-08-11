@@ -63,5 +63,4 @@ ___
 ##### Christine Wanjiru
 
 ___
-# Acknowledgements
-###### Andela Kenya Cycle 37 Bootcamp Team
+
